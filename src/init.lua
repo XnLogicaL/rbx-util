@@ -42,9 +42,6 @@
 	<Trove>
 	 @sleitnick
 		
-	<InstanceToData>
-	 @XnLogicaL (@CE0_OfTrolling)
-		
 	<BetterSignal>
 	 @XnLogicaL (@CE0_OfTrolling)
 	 
@@ -72,20 +69,21 @@
 ]]--
 
 _index = script.Parent.lib:GetChildren()
-_index.exceptions.init.new_exception("FeatureNotActivated")
-_index.exceptions.init.new_exception("IndexError")
+local exceptions = require(_index.exceptions)
+exceptions.new_exception("FeatureNotActivated")
+exceptions.new_exception("IndexError")
 
 return setmetatable({}, {
-	__index = function(tbl, index)
+	__index = function(_, index)
 		if _index[index] ~= nil then
 			return require(_index[index].init)
 		else
-			_index.exceptions.init.raise("IndexError", "Could not index requested utility package")
+			exceptions.raise("IndexError", "Could not index requested utility package")
 		end
 	end;
 
-	__newindex = function(tbl, index, value)
-		_index.exceptions.init.raise("IndexError", "Please edit the source code to add more util packages instead.")
-		index = nil
+	__newindex = function(tbl, index, _)
+		tbl[index] = nil
+		exceptions.raise("IndexError", "Please edit the source code to add more util packages instead.")
 	end;
 })

@@ -21,7 +21,7 @@ random = {
 	end,
 	random = function()
 		local self: random = random
-		return self.__rng__:NextNumber()a
+		return self.__rng__:NextNumber()
 	end,
 	randint = function(m: number, n: number)
 		assert(m, "given minimum is not an integer")
